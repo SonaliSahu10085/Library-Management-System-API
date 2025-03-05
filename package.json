@@ -1,0 +1,14 @@
+{
+  "name": "libraymanagementsystemapi",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "~4.16.1",
+    "joi": "^17.13.3",
+    "mongoose": "^8.12.1"
+  }
+}
