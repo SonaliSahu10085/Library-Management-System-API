@@ -1,23 +1,25 @@
 require("dotenv/config");
 const express = require("express");
+const connectDb = require('./config/mongodb')
 const ExpressError = require("./utils/ExpressError");
 
 
-const indexRouter = require("./routes/index");
 const booksRouter = require("./routes/books");
 
 const app = express();
 const PORT = process.env.PORT || "3002";
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// Connecting with DB
+connectDb();
 
-app.use("/", indexRouter);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/books", booksRouter);
 
 // ---- Middleware to handle non-existing endpoints
 app.all("*", (req, res, next) => {
-  res.status(404).json({ message: "Invalid Endpoint." });
+  next(new ExpressError(404, "Endpoint not exists!"));
 });
 
 // ---- Error handling middleware

@@ -1,20 +1,33 @@
 const express = require("express");
 const bookController = require("../controllers/bookController");
+const wrapAsync = require("../utils/wrapAsync");
+const { validateBook } = require("../middlewares/serverValidation");
+const { isValidBook, isUniqueTitle } = require("../middlewares/book");
 const router = express.Router();
 
 /* GET - Retrieves all books*/
-router.get("/", bookController.getAllBooks);
+router.get("/", wrapAsync(bookController.getAllBooks));
 
 /* POST - Add new book. */
-router.post("/", bookController.addBook);
+router.post(
+  "/",
+  validateBook,
+  isUniqueTitle,
+  wrapAsync(bookController.addBook)
+);
 
 /* GET - Retrives a specific book by ID. */
-router.get("/:id", bookController.getSpecificBook);
+router.get("/:id", isValidBook, wrapAsync(bookController.getSpecificBook));
 
 /* PUT - Updates a book by ID. */
-router.put("/:id", bookController.updateBook);
+router.put(
+  "/:id",
+  isValidBook,
+  validateBook,
+  wrapAsync(bookController.updateBook)
+);
 
 /* DELETE - Deletes a book by ID. */
-router.delete("/:id", bookController.deleteBook);
+router.delete("/:id", isValidBook, wrapAsync(bookController.deleteBook));
 
 module.exports = router;
