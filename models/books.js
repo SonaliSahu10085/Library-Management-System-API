@@ -20,6 +20,10 @@ const bookSchema = new mongoose.Schema(
       enum: ["Available", "Checked Out", "Reserved"],
       default: "Available",
     },
+    coverImage: {
+      type: String,
+      default: ""
+    }
   },
   { timestamps: true }
 );

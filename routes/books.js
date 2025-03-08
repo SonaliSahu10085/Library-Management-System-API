@@ -3,6 +3,7 @@ const bookController = require("../controllers/bookController");
 const wrapAsync = require("../utils/wrapAsync");
 const { validateBody } = require("../middlewares/serverValidation");
 const { isValidEntity, isUnique } = require("../middlewares/entityValidation");
+const upload = require("../middlewares/upload");
 const router = express.Router();
 
 /* GET - Retrieves all books*/
@@ -24,5 +25,9 @@ router.put(
 
 /* DELETE - Deletes a book by ID. */
 router.delete("/:id", isValidEntity, wrapAsync(bookController.deleteBook));
+
+/* POST - Upload book cover image */
+router.post("/:id/upload-cover", upload.single("coverImage"), wrapAsync(bookController.uploadBookCover));
+
 
 module.exports = router;
