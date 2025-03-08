@@ -1,4 +1,6 @@
-# Book Model - Library Management System
+# Library Management System
+
+# 1. Book Model
 
 This Mongoose model defines the schema for managing books in a library system.
 
@@ -9,10 +11,10 @@ This Mongoose model defines the schema for managing books in a library system.
 - Represents the name of the book.
 - **Example**: `"The Great Gatsby"`
 
-### 2. `author` (String, required)
+### 2. `author` (ObjectId, required, references `Author`)
 
-- Stores the name of the book's author.
-- **Example**: `"F. Scott Fitzgerald"`
+- Stores the reference to the `Author` model.
+- **Example**: `"65f1a4b2c1e62d001cbf1234"` (MongoDB ObjectId of an author)
 
 ### 3. `publishedYear` (Number, required)
 
@@ -41,3 +43,41 @@ This Mongoose model defines the schema for managing books in a library system.
 ### 7. `timestamps` (Automatic)
 
 - Mongoose adds `createdAt` and `updatedAt` timestamps to track when a book record is added or modified.
+
+
+# 2. Author Model
+
+This Mongoose model defines the schema for managing authors in a library system.
+
+## Schema Fields
+
+### 1. `name` (String, required)
+
+- Represents the full name of the author.
+- **Example**: `"J.K. Rowling"`
+
+### 2. `birthYear` (Number)
+
+- The year when the author was born.
+- **Example**: `1965`
+
+### 3. `nationality` (String)
+
+- The nationality of the author.
+- **Example**: `"British"`
+
+### 4. `books` (Array of ObjectIds, ref: `Book`)
+
+- A list of book IDs written by the author.
+- References the `Book` model.
+- **Example**:
+  ```json
+  [
+    "65f1a4b2c1e62d001cbf1234",
+    "65f1a4b2c1e62d001cbf5678"
+  ]
+  ```
+
+### 5. `timestamps` (Automatic)
+
+- Mongoose adds `createdAt` and `updatedAt` timestamps to track when an author record is added or modified.

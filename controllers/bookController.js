@@ -3,8 +3,15 @@ const ExpressError = require("../utils/ExpressError");
 
 // Get all books
 exports.getAllBooks = async (req, res, next) => {
+  const { title, author, status, limit = 0 } = req.query;
+  let filter = {}; // Default: empty filter (fetch all)
+
+  if (title) filter.title = new RegExp(title, "i");;
+  if (author) filter.author = new RegExp(author, "i");;
+  if (status) filter.status = new RegExp(status, "i");;
+
   try {
-    const books = await Book.find();
+    const books = await Book.find(filter).populate("author").limit(Number(limit) || 0);
     res.json({
       message: "All Available Books",
       data: books,
@@ -29,7 +36,7 @@ exports.addBook = async (req, res, next) => {
 // Get a single book
 exports.getSpecificBook = async (req, res, next) => {
   const { id } = req.params;
-  const book = await Book.findById(id);
+  const book = await Book.findById(id).populate("author");
   res.json({
     message: "Get book by ID",
     data: [book],

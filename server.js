@@ -5,6 +5,8 @@ const ExpressError = require("./utils/ExpressError");
 
 
 const booksRouter = require("./routes/books");
+const authorsRouter = require("./routes/authors");
+
 
 const app = express();
 const PORT = process.env.PORT || "3002";
@@ -15,7 +17,9 @@ connectDb();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/books", booksRouter);
+app.use("/api/books", booksRouter);
+app.use("/api/authors", authorsRouter);
+
 
 // ---- Middleware to handle non-existing endpoints
 app.all("*", (req, res, next) => {
