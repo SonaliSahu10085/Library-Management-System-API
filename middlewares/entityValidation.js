@@ -3,6 +3,8 @@ const ExpressError = require("../utils/ExpressError");
 const Book = require("../models/books");
 const Author = require("../models/authors");
 const User = require("../models/users");
+const Loan = require("../models/loans");
+
 
 exports.isValidEntity = async (req, res, next) => {
   const { id } = req.params;
@@ -23,6 +25,11 @@ exports.isValidEntity = async (req, res, next) => {
   if (req.baseUrl.includes("users")) {
     Model = User;
     entity = "User";
+  }
+
+  if (req.baseUrl.includes("loans")) {
+    Model = Loan;
+    entity = "Loan";
   }
 
   // Validate ObjectId before querying
@@ -58,6 +65,12 @@ exports.isUnique = async (req, res, next) => {
     Model = User;
     entity = "User";
     condition = { email: req.body.email };
+  }
+  
+  if (req.baseUrl.includes("loans")) {
+    Model = Loan;
+    entity = "Loan";
+    condition = { user: req.body.user };
   }
 
   const _entity = await Model.findOne(condition);

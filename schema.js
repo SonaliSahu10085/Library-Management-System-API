@@ -18,7 +18,7 @@ exports.authorSchema = joi.object({
   nationality: joi.string().required(),
   books: joi
     .array()
-    .items(joi.string().regex(/^[0-9a-fA-F]{24}$/)) // Validate MongoDB ObjectId format
+    .items(joi.string().regex(/^[0-9a-fA-F]{24}$/)).messages({ "string.pattern.base": "Invalid Book ID format" }) // Validate MongoDB ObjectId format
     .default([]), // Book IDs stored as strings
 });
 
@@ -33,11 +33,13 @@ exports.loanSchema = joi.object({
   user: joi
     .string()
     .regex(/^[0-9a-fA-F]{24}$/)
-    .required(),
+    .required()
+    .messages({ "string.pattern.base": "Invalid User ID format" }),
   book: joi
     .string()
     .regex(/^[0-9a-fA-F]{24}$/)
-    .required(),
+    .required()
+    .messages({ "string.pattern.base": "Invalid Book ID format" }),
   borrowDate: joi.date().default(() => new Date()), // Default to current date
   returnDate: joi
     .date()

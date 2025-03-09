@@ -1,5 +1,5 @@
 const ExpressError = require("../utils/ExpressError");
-const { bookSchema, authorSchema, userSchema } = require("../schema");
+const { bookSchema, authorSchema, userSchema, loanSchema } = require("../schema");
 
 //Server side validation middleware
 
@@ -16,6 +16,11 @@ exports.validateBody = (req, res, next) => {
   if (req.baseUrl.includes("users")) {
     schema = userSchema;
   }
+
+  if (req.baseUrl.includes("loans")) {
+    schema = loanSchema;
+  }
+  
   const { error } = schema.validate(req.body);
   if (error) {
     const errMsg = error.details[0].message;
