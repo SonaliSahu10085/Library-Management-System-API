@@ -1,5 +1,5 @@
 const express = require("express");
-const bookController = require("../controllers/bookController");
+const userController = require("../controllers/userController");
 const wrapAsync = require("../utils/wrapAsync");
 const { validateBody } = require("../middlewares/serverValidation");
 const { isValidEntity, isUnique } = require("../middlewares/entityValidation");
@@ -7,27 +7,31 @@ const upload = require("../middlewares/upload");
 const router = express.Router();
 
 /* GET - Retrieves all books*/
-router.get("/", wrapAsync(bookController.getAllBooks));
+router.get("/", wrapAsync(userController.getAllUsers));
 
 /* POST - Add new book. */
-router.post("/", validateBody, isUnique, wrapAsync(bookController.addBook));
+router.post("/", validateBody, isUnique, wrapAsync(userController.addUser));
 
 /* GET - Retrives a specific book by ID. */
-router.get("/:id", isValidEntity, wrapAsync(bookController.getSpecificBook));
+router.get("/:id", isValidEntity, wrapAsync(userController.getSpecificUser));
 
 /* PUT - Updates a book by ID. */
 router.put(
   "/:id",
   isValidEntity,
   validateBody,
-  wrapAsync(bookController.updateBook)
+  wrapAsync(userController.updateUser)
 );
 
 /* DELETE - Deletes a book by ID. */
-router.delete("/:id", isValidEntity, wrapAsync(bookController.deleteBook));
+router.delete("/:id", isValidEntity, wrapAsync(userController.deleteUser));
 
 /* POST - Upload book cover image */
-router.post("/:id/upload-cover", isValidEntity, upload.single("coverImage"), wrapAsync(bookController.uploadBookCover));
-
+router.post(
+  "/:id/upload-profile-picture",
+  isValidEntity,
+  upload.single("profilePicture"),
+  wrapAsync(userController.uploadProfilePicture)
+);
 
 module.exports = router;

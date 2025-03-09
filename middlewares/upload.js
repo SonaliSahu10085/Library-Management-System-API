@@ -10,6 +10,11 @@ const storage = multer.diskStorage({
       // Save files in the 'uploads' directory
       cb(null, "uploads/BookCover/");
     }
+
+    if (req.baseUrl.includes("users")) {
+      // Save files in the 'uploads' directory
+      cb(null, "uploads/UserProfile/");
+    }
   },
   filename: (req, file, cb) => {
     cb(null, `${moment().format("DD-MMM-YYYY-hh-mm-ss")}-${file.originalname}`);

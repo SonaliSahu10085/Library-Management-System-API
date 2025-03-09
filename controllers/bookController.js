@@ -67,28 +67,23 @@ exports.updateBook = async (req, res, next) => {
 
 // Delete a book
 exports.deleteBook = async (req, res, next) => {
-
   const { id } = req.params;
 
   const deletedBook = await Book.findByIdAndDelete(id);
   res.json({ message: "Book deleted", data: [deletedBook] });
 };
 
+// Upload a book cover
 exports.uploadBookCover = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-  
     if (!req.file) {
       return next(new ExpressError(400, "Upload a cover image for book"));
     }
     const book = await Book.findById(id);
 
-    if (!book) {
-      return next(new ExpressError(404, "Book not found"))
-    }
-
-    console.log(req.file);
+    // console.log(req.file);
 
     // Save image path in the database
     book.coverImage = req.file.path;
@@ -99,6 +94,6 @@ exports.uploadBookCover = async (req, res, next) => {
       coverImageUrl: req.file.path,
     });
   } catch (error) {
-    next(new ExpressError(500, error.message))
+    next(new ExpressError(500, error.message));
   }
 };

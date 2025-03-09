@@ -19,6 +19,28 @@ exports.authorSchema = joi.object({
   books: joi
     .array()
     .items(joi.string().regex(/^[0-9a-fA-F]{24}$/)) // Validate MongoDB ObjectId format
-    .unique() // Ensure no duplicate book IDs
     .default([]), // Book IDs stored as strings
+});
+
+exports.userSchema = joi.object({
+  name: joi.string().trim().required(),
+  email: joi.string().email().trim().lowercase().required(),
+  role: joi.string().valid("member", "librarian", "admin").default("member"),
+  profilePicture: joi.string().default(""),
+});
+
+exports.loanSchema = joi.object({
+  user: joi
+    .string()
+    .regex(/^[0-9a-fA-F]{24}$/)
+    .required(),
+  book: joi
+    .string()
+    .regex(/^[0-9a-fA-F]{24}$/)
+    .required(),
+  borrowDate: joi.date().default(() => new Date()), // Default to current date
+  returnDate: joi
+    .date()
+    .default(() => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)), // 7 days later
+  isReturned: joi.boolean().default(false), // Default is not returned
 });

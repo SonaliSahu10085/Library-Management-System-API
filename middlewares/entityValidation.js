@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const ExpressError = require("../utils/ExpressError");
 const Book = require("../models/books");
 const Author = require("../models/authors");
+const User = require("../models/users");
 
 exports.isValidEntity = async (req, res, next) => {
   const { id } = req.params;
@@ -17,6 +18,11 @@ exports.isValidEntity = async (req, res, next) => {
   if (req.baseUrl.includes("books")) {
     Model = Book;
     entity = "Book";
+  }
+
+  if (req.baseUrl.includes("users")) {
+    Model = User;
+    entity = "User";
   }
 
   // Validate ObjectId before querying
@@ -46,6 +52,12 @@ exports.isUnique = async (req, res, next) => {
     Model = Book;
     entity = "Book";
     condition = { title: req.body.title };
+  }
+
+  if (req.baseUrl.includes("users")) {
+    Model = User;
+    entity = "User";
+    condition = { email: req.body.email };
   }
 
   const _entity = await Model.findOne(condition);
