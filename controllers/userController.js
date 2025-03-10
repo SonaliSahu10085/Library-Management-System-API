@@ -88,7 +88,7 @@ exports.uploadProfilePicture = async (req, res, next) => {
 
     res.status(200).json({
       message: "User profile picture uploaded successfully",
-      profilePictureUrl: req.file.path,
+      data: [user],
     });
   } catch (error) {
     next(new ExpressError(500, error.message));

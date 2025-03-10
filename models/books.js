@@ -22,8 +22,14 @@ const bookSchema = new mongoose.Schema(
     },
     coverImage: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
   },
   { timestamps: true }
 );

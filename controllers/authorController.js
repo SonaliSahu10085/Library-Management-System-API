@@ -34,7 +34,7 @@ exports.addAuthor = async (req, res, next) => {
 };
 
 // Get a single author
-exports.getAuthor = async (req, res, next) => {
+exports.getSpecificAuthor = async (req, res, next) => {
   const { id } = req.params;
   const author = await Author.findById(id).populate("books");
   res.json({

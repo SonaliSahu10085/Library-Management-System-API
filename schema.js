@@ -2,7 +2,11 @@ const joi = require("joi");
 
 exports.bookSchema = joi.object({
   title: joi.string().required(),
-  author: joi.string().required(),
+  author: joi
+    .string()
+    .regex(/^[0-9a-fA-F]{24}$/)
+    .required()
+    .messages({ "string.pattern.base": "Invalid Author ID format" }),
   publishedYear: joi.number().min(0).required(),
   pages: joi.number().required().min(1),
   copiesAvailable: joi.number().min(1).default(1),
@@ -18,7 +22,8 @@ exports.authorSchema = joi.object({
   nationality: joi.string().required(),
   books: joi
     .array()
-    .items(joi.string().regex(/^[0-9a-fA-F]{24}$/)).messages({ "string.pattern.base": "Invalid Book ID format" }) // Validate MongoDB ObjectId format
+    .items(joi.string().regex(/^[0-9a-fA-F]{24}$/))
+    .messages({ "string.pattern.base": "Invalid Book ID format" }) // Validate MongoDB ObjectId format
     .default([]), // Book IDs stored as strings
 });
 
@@ -45,4 +50,14 @@ exports.loanSchema = joi.object({
     .date()
     .default(() => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)), // 7 days later
   isReturned: joi.boolean().default(false), // Default is not returned
+});
+
+exports.reviewSchema = joi.object({
+  user: joi
+    .string()
+    .regex(/^[0-9a-fA-F]{24}$/)
+    .required()
+    .messages({ "string.pattern.base": "Invalid User ID format" }),
+  rating: joi.number().required().min(1).max(5),
+  comment: joi.string().default(""),
 });

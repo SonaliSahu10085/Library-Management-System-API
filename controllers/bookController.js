@@ -1,4 +1,5 @@
 const Book = require("../models/books");
+const Author = require("../models/authors");
 const ExpressError = require("../utils/ExpressError");
 
 // Get all books
@@ -25,10 +26,13 @@ exports.getAllBooks = async (req, res, next) => {
 
 // Add a Book
 exports.addBook = async (req, res, next) => {
+  const { author: authorId } = req.body;
   const newBook = new Book({
     ...req.body,
   });
   await newBook.save();
+  await Author.findByIdAndUpdate(id, { $push: { books: newBook._id } });
+
   res.status(201).json({
     message: "Book Created",
     data: [newBook],
@@ -91,7 +95,7 @@ exports.uploadBookCover = async (req, res, next) => {
 
     res.status(200).json({
       message: "Book cover uploaded successfully",
-      coverImageUrl: req.file.path,
+      data: [book],
     });
   } catch (error) {
     next(new ExpressError(500, error.message));

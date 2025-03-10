@@ -4,13 +4,18 @@ const Book = require("../models/books");
 const Author = require("../models/authors");
 const User = require("../models/users");
 const Loan = require("../models/loans");
-
+const Review = require("../models/reviews");
 
 exports.isValidEntity = async (req, res, next) => {
-  const { id } = req.params;
+  const { id, reviewId } = req.params;
 
   let Model;
   let entity;
+
+  if (req.baseUrl.includes("reviews")) {
+    Model = Review;
+    entity = "Review";
+  }
 
   if (req.baseUrl.includes("authors")) {
     Model = Author;
@@ -30,6 +35,10 @@ exports.isValidEntity = async (req, res, next) => {
   if (req.baseUrl.includes("loans")) {
     Model = Loan;
     entity = "Loan";
+  }
+
+  if (id && reviewId && !mongoose.isValidObjectId(reviewId)) {
+    return next(new ExpressError(400, `${entity} ID invalid.`));
   }
 
   // Validate ObjectId before querying
@@ -66,7 +75,7 @@ exports.isUnique = async (req, res, next) => {
     entity = "User";
     condition = { email: req.body.email };
   }
-  
+
   if (req.baseUrl.includes("loans")) {
     Model = Loan;
     entity = "Loan";
