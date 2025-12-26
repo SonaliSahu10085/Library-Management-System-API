@@ -1,83 +1,154 @@
-# Library Management System
+# 📚 Library Management System (LMS) APIs
 
-# 1. Book Model
+Welcome to the backend of the **Library Management System (LMS)**.  
+This project is a **RESTful API** designed to manage a library’s complete ecosystem — from books and authors to users, loans, and reviews.
 
-This Mongoose model defines the schema for managing books in a library system.
+The project was developed over a **10-day structured plan** to demonstrate real-world backend development practices such as API design, database modeling, validation, and documentation.
 
-## Schema Fields
+🚀 **GitHub Repository:**  
+https://github.com/SonaliSahu10085/LMS-APIs  
 
-### 1. `title` (String, required)
+📄 **API Documentation:**  
+[https://docs.google.com/document/d/1HlP2RvzY4Li_B4oGI9G1T3o3MRpM5Y-R5e3WR4e4Vks/edit?usp=sharing](https://docs.google.com/document/d/1HlP2RvzY4Li_B4oGI9G1T3o3MRpM5Y-R5e3WR4e4Vks/edit?usp=sharing)
 
-- Represents the name of the book.
-- **Example**: `"The Great Gatsby"`
+📄 **Development Branch:**  
+All active development and testing were done in the `test` branch.
 
-### 2. `author` (ObjectId, required, references `Author`)
+---
 
-- Stores the reference to the `Author` model.
-- **Example**: `"65f1a4b2c1e62d001cbf1234"` (MongoDB ObjectId of an author)
+## 🌟 Project Overview
 
-### 3. `publishedYear` (Number, required)
+The main objective of this project is to build a **scalable and well-structured backend API** using the MERN backend stack (without React).
 
-- The year when the book was published.
-- **Example**: `1925`
+This system helps manage library operations efficiently and provides hands-on experience with:
+- RESTful API design
+- MongoDB data modeling
+- Git & GitHub workflow
+- API testing using Postman
 
-### 4. `pages` (Number, required)
+---
 
-- The total number of pages in the book.
-- **Example**: `218`
+## 🔑 Core Functionalities
 
-### 5. `copiesAvailable` (Number, default: `1`)
+- **Book & Author Management**  
+  Full CRUD operations to create and maintain the library catalog.
 
-- The number of copies of the book available in the library.
-- Default is `1`, meaning at least one copy is available.
-- **Example**: `5` (if five copies of the book are available in the library).
+- **User Management**  
+  Member registration, profile creation, and user-related operations.
 
-### 6. `status` (String, enum: `['Available', 'Checked Out', 'Reserved']`, default: `'Available'`)
+- **Loan System**  
+  Handles borrowing and returning of books with proper tracking.
 
-- Indicates the current status of the book:
-  - `"Available"` → Book is available for borrowing.
-  - `"Checked Out"` → Someone has borrowed the book.
-  - `"Reserved"` → The book is reserved by a member.
-- Default status is `"Available"`.
+- **Reviews & Ratings**  
+  Users can rate and review books, creating a feedback system.
 
-### 7. `timestamps` (Automatic)
+---
 
-- Mongoose adds `createdAt` and `updatedAt` timestamps to track when a book record is added or modified.
+## ✨ Key Features
 
+- **RESTful Architecture**  
+  Clean and predictable endpoints for all resources.
 
-# 2. Author Model
+- **File Upload Support**  
+  Integrated **Multer** middleware for uploading book covers and user profile images.
 
-This Mongoose model defines the schema for managing authors in a library system.
+- **Data Persistence**  
+  MongoDB with Mongoose for schema-based and flexible data modeling.
 
-## Schema Fields
+- **Validation & Error Handling**  
+  Handles invalid IDs, missing data, and edge cases gracefully.
 
-### 1. `name` (String, required)
+- **Pagination Support**  
+  Implemented in GET requests to improve performance for large datasets.
 
-- Represents the full name of the author.
-- **Example**: `"J.K. Rowling"`
+---
 
-### 2. `birthYear` (Number)
+## 🛠 Tech Stack
 
-- The year when the author was born.
-- **Example**: `1965`
+- **Runtime:** Node.js  
+- **Framework:** Express.js  
+- **Database:** MongoDB & Mongoose  
+- **Middleware:** Multer (File Uploads)  
+- **Version Control:** Git & GitHub  
+- **API Testing:** Postman
+- **API Documentation:** Google Docs
 
-### 3. `nationality` (String)
+---
 
-- The nationality of the author.
-- **Example**: `"British"`
+## 📂 Folder Structure
 
-### 4. `books` (Array of ObjectIds, ref: `Book`)
+The project follows a clean and modular structure to separate concerns:
 
-- A list of book IDs written by the author.
-- References the `Book` model.
-- **Example**:
-  ```json
-  [
-    "65f1a4b2c1e62d001cbf1234",
-    "65f1a4b2c1e62d001cbf5678"
-  ]
-  ```
+```text
+LMS-APIs/
+│
+├── controllers/     # Request handling and business logic
+├── models/          # Database schemas (Book, Author, User, Loan, Review)
+├── routes/          # API route definitions
+├── middleware/      # Custom middleware (e.g., Multer)
+├── config/          # Database connection & environment setup
+├── utils/           # Reusable helper functions
+├── .env             # For environment variables       
+├── server.js        # Application entry point
+└── package.json
+```
+---
+## 🚀 Installation & Setup
+1️⃣ Clone the repository
+```bash
+git clone https://github.com/SonaliSahu10085/LMS-APIs.git
+```
 
-### 5. `timestamps` (Automatic)
+2️⃣ Navigate to the project directory
+```bash
+cd LMS-APIs
+```
 
-- Mongoose adds `createdAt` and `updatedAt` timestamps to track when an author record is added or modified.
+3️⃣ Install dependencies
+```bash
+npm install
+```
+
+4️⃣ Configure Environment Variables
+
+**Create a .env file in the root directory and add:**
+```bash
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+```
+
+5️⃣ Run the server
+```bash
+node server.js
+```
+The API will start running on the configured port.
+
+---
+## 🧪 API Testing
+
+- All APIs were tested using Postman
+- CRUD operations were validated for all major modules
+- Pagination, error handling, and edge cases were tested thoroughly
+- 
+---
+## 🚀 Future Enhancements
+
+- 🔐 JWT-based authentication and role-based access control
+- 📊 Admin dashboard APIs
+- 📅 Due-date reminders and fine calculation
+- 📈 Analytics for most borrowed books
+- 🧾 API documentation using Swagger/OpenAPI
+
+---
+## 🎓 Learning Outcomes
+
+- Gained strong understanding of RESTful API design
+- Learned proper MongoDB schema relationships
+- Improved skills in Express middleware and validation
+- Practiced real-world GitHub workflow
+- Strengthened debugging and API testing skills using Postman
+
+---
+## 👩‍💻 Author
+Developed Sonali Sahu |BCA Student | Backend & Full-Stack Aspirant
+Building scalable backend systems with clean architecture 🚀
